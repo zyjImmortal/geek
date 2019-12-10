@@ -53,3 +53,37 @@ class Solution:
             second = second.next
         second.next = second.next.next
         return temp.next
+
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        """
+        给定一个排序链表，删除所有含有重复数字的节点，只保留原始链表中 没有重复出现 的数字
+        :param head:
+        :return:
+        """
+        if head == None or head.next == None:
+            return head
+        dumpy = ListNode(-1)
+        dumpy.next = head
+        cur = dumpy.next
+        pre = dumpy
+        while cur.next != None:
+            if cur.val != cur.next.val:
+                if pre.next.val == cur.val:
+                    pre = cur
+                else:
+                    pre.next = cur.next
+            cur = cur.next
+        return dumpy.next
+
+node = ListNode(1)
+node.next = ListNode(2)
+node.next.next = ListNode(3)
+node.next.next.next = ListNode(3)
+node.next.next.next.next = ListNode(4)
+node.next.next.next.next.next = ListNode(4)
+node.next.next.next.next.next.next = ListNode(5)
+
+import util
+util.print_list_node(node)
+solution = Solution()
+solution.deleteDuplicates(node)
