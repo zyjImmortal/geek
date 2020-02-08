@@ -21,3 +21,31 @@ class Solution:
                 return left
         else:
             return right
+
+
+    '''二叉树的遍历
+    前中后，根究root的位置，
+    '''
+
+    '''分治算法代码模板'''
+
+    def divid_conquer(self, problem, params1, params2):
+        # 递归终止条件
+        if problem is None:
+            return
+
+        # 处理数据
+        # data = prepare_data(problem)
+        # sub_problems = split_problem(problem)
+
+        # sub_result1 = self.divid_conquer(sub_problems[0])
+        # sub_result2 = self.divid_conquer(sub_problems[1])
+        # sub_result3 = self.divid_conquer(sub_problems[2])
+        #
+        # # 手机处理结果，并返回
+        # result = proccess_result(sub_result1,sub_result2 ....)
+
+
+    '''x 的n次方'''
+    def pow(self, x, n):
+        return pow(x, n)
