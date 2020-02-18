@@ -51,3 +51,18 @@ def db_with_2_tasks(tasks_db, tasks_just_a_few):
     '''利用tasks_db 将多个对象添加到数据库，完成数据初始化的任务，这里调用了另外两个fixture'''
     for t in tasks_just_a_few:
         tasks.add(t)
+
+
+# def pytest_report_header(config):
+#     if config.getoption('nice'):
+#         return 'Hello Pytest'
+#
+#
+# def pytest_report_teststatus(report, config):
+#     if report.when == 'call' and report.failed and config.getoption('nice'):
+#         return (report.outcome, 'O', '继续努力')
+#
+#
+# def pytest_addoption(parser):
+#     group = parser.getgroup('nice')
+#     group.addoption('--nice', action='store_true', help='nice: refactor failures')

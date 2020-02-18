@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 pytest = "*"
 pymongo = "*"
+pithy-test = "*"
 
 [requires]
 python_version = "3.8"
