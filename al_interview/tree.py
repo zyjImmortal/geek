@@ -1,3 +1,6 @@
+import collections
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
@@ -22,7 +25,6 @@ class Solution:
         else:
             return right
 
-
     '''二叉树的遍历
     前中后，根究root的位置，
     '''
@@ -45,7 +47,51 @@ class Solution:
         # # 手机处理结果，并返回
         # result = proccess_result(sub_result1,sub_result2 ....)
 
-
     '''x 的n次方'''
+
     def pow(self, x, n):
         return pow(x, n)
+
+    '''层序遍历'''
+
+    def levelOrder(self, root):
+        if not root:
+            return []
+        result = []
+        queue = collections.deque()  # 队列存储每一层所有的节点
+        queue.append(root)
+        # while循环控制一层一层往下走，内层for循环控制读取每一层数据
+        while queue:
+            current_level = []
+            size = len(queue)
+            # 遍历当前层所有节点的值，然后把子节点存入队列
+            for _ in range(size):
+                node = queue.popleft()
+                current_level.append(node.value)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result.append(current_level)
+        return result
+
+    def levelOrderV2(self, root):
+        if not root:
+            return []
+        self.result = []
+        self._dfs(root, 0)
+        return self.result
+
+    def _dfs(self, node, level):
+        if not node:
+            return
+        if len(self.result) < level + 1:
+            self.result.append([])
+        self.result[level].append(node.val)
+        self._dfs(node.left, level + 1)
+        self._dfs(node.right, level + 1)
+
+
+if __name__ == '__main__':
+    solution = Solution()
+    print(solution.levelOrder())
