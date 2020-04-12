@@ -130,6 +130,14 @@ class Solution:
                 return True
         return False
 
+    def is_valid(self, str):
+        table = {
+            ')':'(',
+            ']':'[',
+            '}':'{'
+        }
+        tuple
+
 
 if __name__ == '__main__':
     solution = Solution()
