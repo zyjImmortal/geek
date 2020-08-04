@@ -1,6 +1,4 @@
 from collections import Counter
-from typing import List
-
 
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
@@ -126,55 +124,23 @@ class Solution:
                 right += 1
             else:
                 window.clear()
-                right = left + 1
+                right  = left + 1
                 left = right
             if window == record:
                 return True
         return False
 
-    def strStr(self, haystack: str, needle: str) -> int:
-        '''
-        给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出
-        needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1
-        heloolo
-        l00p
-        :param haystack:
-        :param needle:
-        :return:
-        '''
-        h_size = len(haystack)
-        n_size = len(needle)
-        if n_size > h_size:
-            return -1
-        if n_size == 0:
-            return 0
-        flag = h = n = 0
-        while h < h_size and n < n_size:
-            if haystack[h] == needle[n]:
-                h += 1
-                n += 1
-                flag += 1
-            else:
-                flag = 0
-                n = 0
-                h  = h - flag + 1
-            if n == n_size and flag == n_size:
-                return h - n_size
-        return -1
-
-    def longestCommonPrefix(self, strs: List[str]) -> str:
-        '''
-
-        :param strs:
-        :return:
-        '''
+    def is_valid(self, str):
+        table = {
+            ')':'(',
+            ']':'[',
+            '}':'{'
+        }
+        tuple
 
 
 if __name__ == '__main__':
     solution = Solution()
-    s = 'hello'
-    t = 'll'
-    h = "mississippi"
-    n = "issip"
-    # print(s.index(t))
-    print(solution.strStr(h, n))
+    s = 'adb'
+    t = 'dbda'
+    print(solution.checkInclusion(s,t))
