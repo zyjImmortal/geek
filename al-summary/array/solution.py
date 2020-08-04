@@ -207,7 +207,7 @@ class Solution:
             tmp.append(nums[j])
             self._backtrack(j + 1, nums, res, tmp)
             tmp.pop()
-            
+
     def subsets(self, nums: List[int]) -> List[List[int]]:
         '''
         给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
@@ -219,6 +219,106 @@ class Solution:
         self._backtrack(0, nums, res, [])
         return res
 
+    def pivotIndex(self, nums: List[int]) -> int:
+        '''给定一个整数类型的数组 nums，请编写一个能够返回数组“中心索引”的方法
+            定义数组中心索引的：数组中心索引的左侧所有元素相加的和等于右侧所有元素相加的和
+            不存在中心索引，那么我们应该返回 -1。如果数组有多个中心索引，那么我们应该返回最靠近左边的那一个
+        '''
+        size = len(nums)
+        for i in range(size):
+            left = right = 0
+            for j in range(i):
+                left += nums[j]
+            for z in range(i + 1, size):
+                right += nums[z]
+            if left == right:
+                return i
+        return -1
+
+    def pivotIndexV2(self, nums: List[int]) -> int:
+        size = len(nums)
+        left = 0
+        right = sum(nums)
+        for i in range(size):
+            right -= nums[i]
+            if left == right:
+                return i
+            left += nums[i]
+        return -1
+
+    def pivotIndexV3(self, nums: List[int]) -> int:
+        total = sum(nums)
+        left = 0
+        for index, value in enumerate(nums):
+            if left == total - value - left:
+                return index
+            left += value
+        return -1
+
+    def dominantIndex(self, nums: List[int]) -> int:
+        '''
+        在一个给定的数组nums中，总是存在一个最大元素 。
+        查找数组中的最大元素是否至少是数组中每个其他数字的两倍。
+        如果是，则返回最大元素的索引，否则返回-1
+        :param nums:
+        :return:
+        '''
+        max_value = max_index = 0
+        for index, value in enumerate(nums):
+            if value > max_value:
+                max_value = value
+                max_index = index
+        for index, value in enumerate(nums):
+            if max_value < value * 2 and index != max_index:
+                return -1
+        return max_index
+
+    def dominantIndexV2(self, nums: List[int]) -> int:
+        max_value = max(nums)
+        if all(max_value > x * 2 for x in nums):
+            return nums.index(max_value)
+        return -1
+
+    def plusOne(self, digits: List[int]) -> List[int]:
+        '''
+        给定一个由整数组成的非空数组所表示的非负整数，在该数的基础上加一。
+        最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。
+        你可以假设除了整数 0 之外，这个整数不会以零开头
+        :param digits:
+        :return:
+        '''
+        mod = 0
+        size = len(digits)
+        for i in range(size - 1, -1, -1):
+            if i == size - 1:
+                value = digits[i]
+                digits[i] = (value + 1) % 10
+                mod = (value + 1)// 10
+            else:
+                value = digits[i] + mod
+                digits[i] = value % 10
+                mod = value // 10
+
+        if mod != 0:
+            digits.insert(0,mod)
+        return digits
+
+    def plusOneV2(self, digits: List[int]) -> List[int]:
+        mod = 1
+        size = len(digits)
+        for i in range(size - 1, -1, -1):
+            value = digits[i]
+            digits[i] = (value + mod) % 10
+            mod = (value + mod) // 10
+        return digits if mod == 0 else [mod].extend(digits)
+
+    def findDiagonalOrder(self, matrix: List[List[int]]) -> List[int]:
+        '''
+        给定一个含有 M x N 个元素的矩阵（M 行，N 列），请以对角线遍历的顺序返回这个矩阵中的所有元素
+        :param matrix:
+        :return:
+        '''
+
 
 
 if __name__ == '__main__':
@@ -229,6 +329,6 @@ if __name__ == '__main__':
         [23, 30, 34, 50]
     ]
     matrixv2 = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 50]]
-    nums = [1, 3, 5, 4, 2, 3, 4, 5]
+    nums = [9,9]
 
-    print(solution.findLengthOfLCIS(nums))
+    print(solution.plusOne(nums))

@@ -6,7 +6,7 @@ class TreeNode:
         self.right = None
 
 class Solution:
-    def isSubtree(self, s: TreeNode, t: TreeNode) -> bool:
+    def isSubtree(self, s: TreeNode, t: TreeNode):
         '''
         给定两个非空二叉树 s 和 t，检验 s 中是否包含和 t 具有相同结构和节点值的子树。
         s 的一个子树包括 s 的一个节点和这个节点的所有子孙。
@@ -17,7 +17,7 @@ class Solution:
         '''
         pass
 
-    def diameterOfBinaryTree(self, root: TreeNode) -> int:
+    def diameterOfBinaryTree(self, root: TreeNode):
         '''
         给定一棵二叉树，你需要计算它的直径长度。一棵二叉树的直径长度是任意两个结点路径长度中的最大值。这条路径可能穿过根结点。
         示例 :
@@ -44,3 +44,8 @@ class Solution:
         :rtype: TreeNode
         """
         pass
+    
+    def maxDepth(self, root: TreeNode):
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right)) 

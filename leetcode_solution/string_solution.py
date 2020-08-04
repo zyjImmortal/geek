@@ -2,8 +2,42 @@ import re
 
 
 class Solution:
+    
+    def isPalindrome(self, s: str):
+        s = ''.join(filter(str.isalnum, s)).lower()
+        return s == s[::-1]
 
-    def isPalindrome(self, s: str) -> bool:
+    def is_valid_v2(self, s: str, i, j):
+        s = ''.join(filter(str.isalnum, s[i:j + 1])).lower()
+        return s == s[j + 1:i:-1]
+
+    def is_valid(self, s, i, j):
+        while i < j:
+            if s[i] != s[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
+
+    def validPalindrome(self, s: str):
+        """
+        给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串
+        思路：
+        回文字符串，即从前往后从后往前看字符串都是一样的，还是按照这个思路：
+        分别从开头i和结尾j取字符，判断是否相等，如果相等s[i] == s[j]，则i++，j--，
+        如果不相等，那说明如果当前的字符串满足题目的要求，去除一个字符就能满足回文的要求，那这个字符一定在当前的这两个不相等的字符中
+        那分别把这两个字符去掉，看去掉后的子串是否是回文字符串，如果是这当前字符串就满足要求，=
+        """
+        i, j = 0, len(s) - 1
+        while i < j:
+            if s[i] != s[j]:
+                return self.is_valid(s, i + 1, j) or self.is_valid(
+                    s, i, j - 1)
+            i += 1
+            j -= 1
+        return True
+
+    def isPalindromeV2(self, s: str):
         '''
         判断是否是回文字符串
 
@@ -17,7 +51,7 @@ class Solution:
         else:
             return False
 
-    def mostCommonWord(self, paragraph: str, banned) -> str:
+    def mostCommonWord(self, paragraph: str, banned):
         import re
         record = {}
         strs = re.split('\W', paragraph.lower())
@@ -29,7 +63,7 @@ class Solution:
                     record[key] = 0
         return sorted(record.items(), key=lambda x: x[1], reverse=True)[0][0]
 
-    def isValid(self, s: str) -> bool:
+    def isValid(self, s: str):
         table = {')': '(', ']': '[', '}': '{'}
         stack = []
         for i in s:
