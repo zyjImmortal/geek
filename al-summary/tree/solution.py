@@ -37,3 +37,21 @@ class Solution:
         res = []
         self.helper(root, res)
         return res
+
+
+
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        """
+        给定一个二叉树，返回它的 前序 遍历
+        :param root:
+        :return:
+        """
+        res = []
+        if root:
+            res.append(root.val)
+            if root.left:
+                self.preorderTraversal(root.left)
+            if root.right:
+                self.preorderTraversal(root.right)
+        return res
+

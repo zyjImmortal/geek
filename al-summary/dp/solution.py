@@ -58,8 +58,7 @@ class Solution:
         dp = []
 
         for i in range(len(nums)):
-            dp[i] = max(nums[i], dp[i-1] + nums[i])
-
+            dp[i] = max(nums[i], dp[i - 1] + nums[i])
 
         max_sum = 0
         for sum1 in dp:
@@ -67,7 +66,63 @@ class Solution:
         print(dp)
         return max_sum
 
+    def maxProfit(self, prices: List[int]) -> int:
+        """
+        给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+        如果你最多只允许完成一笔交易（即买入和卖出一支股票一次），设计一个算法来计算你所能获取的最大利润。
+        注意：你不能在买入股票前卖出股票
+        https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/
+
+        使用穷举：
+        伪代码： 所有的可能 = {第x天买，第y天卖}
+        0<= x < len(prices)
+        x<y<len(prices)
+        result = max(所有可能)
+
+        主题思想就是：确定买入，后然后穷举找出最大卖出的价格
+        """
+        res = 0
+        for i in range(len(prices)):
+            for j in range(i + 1, len(prices)):
+                res = max(res, prices[j] - prices[i])
+        return res
+
+    def maxProfitV2(self, prices: List[int]) -> int:
+        """穷举买入，寻找买入价格最小的那天
+        https://mp.weixin.qq.com/s?__biz=MzAxODQxMDM0Mw==&mid=2247484509&amp;idx=1&amp;
+        sn=21ace57f19d996d46e82bd7d806a2e3c&source=41#wechat_redirect
+        """
+        res = 0
+        if len(prices) == 0:
+            return 0
+        curMin = prices[0]
+        for i in range(1, len(prices)):
+            curMin = min(curMin, prices[i])
+            res = max(res, prices[i] - curMin)
+        return res
+
+    def maxProfitV3(self, prices: List[int]) -> int:
+        """
+        给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+        设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+        注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
+        https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/
+        """
+        res = 0
+        for i in range(len(prices)):
+            for j in range(i + 1, len(prices)):
+                res = max(res, self.maxProfitV3(prices[j + 1:]) + prices[j] - prices[i])
+        return res
+
+    def maxProfitV4(self):
+        """
+        状态都有哪些
+        选择都有那些
+        状态如何迁移-->不同的选择
+        :return:
+        """
+
 if __name__ == '__main__':
     solution = Solution()
-    nums = [-2,1,-3,4,-1,2,1,-5,4]
+    nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
     print(solution.maxSubArray(nums))
