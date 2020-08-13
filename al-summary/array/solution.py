@@ -181,26 +181,6 @@ class Solution:
                 end += 1
         return max_length
 
-    def removeDuplicates(self, nums: List[int]) -> int:
-        '''
-        给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。`
-        不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成
-
-        :param nums:
-        :return:
-        '''
-        if len(nums) < 2:
-            return 0
-        i, j = 0, 1
-        while j < len(nums):
-            if nums[j] == nums[i]:
-                j += 1
-            else:
-                i += 1
-                nums[i] = nums[j]
-                j += 1
-        return i + 1
-
     def _backtrack(self, i, nums, res, tmp):
         res.append(tmp)
         for j in range(i, len(nums)):
@@ -293,14 +273,14 @@ class Solution:
             if i == size - 1:
                 value = digits[i]
                 digits[i] = (value + 1) % 10
-                mod = (value + 1)// 10
+                mod = (value + 1) // 10
             else:
                 value = digits[i] + mod
                 digits[i] = value % 10
                 mod = value // 10
 
         if mod != 0:
-            digits.insert(0,mod)
+            digits.insert(0, mod)
         return digits
 
     def plusOneV2(self, digits: List[int]) -> List[int]:
@@ -319,6 +299,87 @@ class Solution:
         :return:
         '''
 
+    def removeElementV2(self, nums: List[int], val: int) -> int:
+        """需要移动元素，无序列表
+           需要两个指针，快慢指针
+        """
+        i = 0
+        for j in range(len(nums)):
+            if nums[j] != val:
+                i += 1
+                nums[i] = nums[j]
+        return i + 1
+
+    def removeElement(self, nums: List[int], val: int) -> int:
+        """
+        3 5 7 7 0 9 ,,7
+        :param nums:
+        :param val:
+        :return:
+        """
+        i = 0
+        size = len(nums)
+        while i < size:
+            if nums[i] == val:
+                nums[i] = nums[size - 1]  # 但是这种方式会有一个问题
+                size -= 1
+                continue
+            i += 1
+        return size
+
+    def removeDuplicates(self, nums: List[int]) -> int:
+        '''
+        给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。`
+        不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成
+
+        :param nums:
+        :return:
+        '''
+        if len(nums) < 2:
+            return 0
+        i, j = 0, 1
+        while j < len(nums):
+            if nums[j] == nums[i]:
+                j += 1
+            else:
+                i += 1
+                nums[i] = nums[j]
+                j += 1
+        return i + 1
+
+    def removeDuplicatesV2(self, nums: List[int], k) -> int:
+        """
+
+        [1,1,1,2,2,3]
+        :param nums:
+        :return:
+        """
+        if nums is None:
+            return 0
+        if len(nums) <= k:
+            return len(nums)
+        # index表示不重复集合的右边界。边界是从0开始到k-1.总共k个数，已经包含进去k个数了，所有右边界的值为k-1
+        index = k-1
+        for i in range(k, len(nums)):
+            # 新加入的元素不能构成连续相同的三个元素
+            if nums[i] != nums[index -1]:
+                index += 1
+                nums[index] = nums[i]
+        return index + 1
+
+    def rotate(self, nums, k):
+        k = k % len(nums)
+        self.reverse(nums, 0, len(nums)-1)
+        self.reverse(nums, 0, k -1)
+        self.reverse(nums, k, len(nums) - 1)
+
+    def reverse(self, nums, start, end):
+        while start < end:
+            temp = nums[start]
+            nums[start] = nums[end]
+            nums[end] = temp
+            start += 1
+            end -= 1
 
 
 if __name__ == '__main__':
@@ -329,6 +390,9 @@ if __name__ == '__main__':
         [23, 30, 34, 50]
     ]
     matrixv2 = [[1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 50]]
-    nums = [9,9]
+    # nums = [9, 9]
 
-    print(solution.plusOne(nums))
+    nums = [0, 0, 1, 1, 1, 1, 2, 2, 3, 3]
+
+    print(solution.reverse(nums, 0, len(nums)-1))
+    print(nums)

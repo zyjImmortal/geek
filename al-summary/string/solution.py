@@ -136,8 +136,16 @@ class Solution:
             ']':'[',
             '}':'{'
         }
-        tuple
+        # tuple
 
+    def strStr(self, haystack: str, needle: str) -> int:
+        """
+
+        :param haystack:
+        :param needle:
+        :return:
+        """
+        pass
 
 if __name__ == '__main__':
     solution = Solution()
