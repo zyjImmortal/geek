@@ -2,6 +2,10 @@ from typing import List
 
 
 class Solution:
+    """
+
+    暴力的递归解法->带备忘录的递归解法->非递归的动态规划解法
+    """
 
     def uniquePaths(self, m: int, n: int) -> int:
 
