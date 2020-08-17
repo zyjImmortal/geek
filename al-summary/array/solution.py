@@ -381,6 +381,34 @@ class Solution:
             start += 1
             end -= 1
 
+    def merge_intervals(self, intervals: List[List[int]]) -> List[List[int]]:
+        """
+        给出一个区间的集合，请合并所有重叠的区间
+        https://leetcode-cn.com/problems/merge-intervals/
+        :param intervals:
+        :return:
+        """
+        if len(intervals) < 2:
+            return intervals
+        i, j = 0, 1
+        res = []
+        intervals.sort()
+        while i < len(intervals):
+            left = intervals[i][0]
+            right = intervals[i][1]
+            count = 1
+            for j in range(i+1, len(intervals)):
+                if right >= intervals[j][0] and left <= intervals[j][1]:
+                    left = min(left, intervals[j][0])
+                    right = max(right, intervals[j][1])
+                    count += 1
+                else:
+                    break
+
+            res.append([left, right])
+            i += count
+        return res
+
 
 if __name__ == '__main__':
     solution = Solution()
@@ -393,6 +421,7 @@ if __name__ == '__main__':
     # nums = [9, 9]
 
     nums = [0, 0, 1, 1, 1, 1, 2, 2, 3, 3]
+    intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
 
-    print(solution.reverse(nums, 0, len(nums)-1))
-    print(nums)
+    print(solution.merge_intervals(intervals))
+    print(intervals)
