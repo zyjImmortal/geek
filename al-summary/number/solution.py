@@ -4,7 +4,9 @@ from typing import List
 class Solution:
 
     def generateParenthesis(self, n: int) -> List[str]:
-        ''''''
+        '''生成合法括号组合的数量
+            回溯算法实现
+        '''
         ans = []
 
         def backtrack(S='', left=0, right=0):

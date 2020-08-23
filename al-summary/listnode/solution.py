@@ -9,7 +9,7 @@ class Solution:
 
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         '''
-        给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，
+        给出两个 非空的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，
         并且它们的每个节点只能存储 一位 数字。
         如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和
         :param l1:
@@ -121,3 +121,24 @@ class Solution:
             fast = fast.next
             slow = slow.next
         return slow
+
+    def sortList(self, head: ListNode) -> ListNode:
+        """
+        https://leetcode-cn.com/problems/sort-list/
+        在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序
+        :param head:
+        :return:
+        """
+        if head is None:
+            return head
+        res = []
+        cur = head
+        while cur:
+            res.append(cur.val)
+            cur = cur.next
+        tmp = head
+        res.sort()
+        for i in res:
+            tmp.val = i
+            tmp = tmp.next
+        return head

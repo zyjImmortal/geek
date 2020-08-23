@@ -41,6 +41,7 @@ class Solution:
             return 0
         dp = [1 for _ in range(len(nums))]
         for i in range(len(nums)):
+            # 把前面小于nums[i]的过滤出来，
             for j in range(i):
                 if nums[i] > nums[j]:
                     dp[i] = max(dp[j] + 1, dp[i])
@@ -125,6 +126,76 @@ class Solution:
         状态如何迁移-->不同的选择
         :return:
         """
+
+    def isMatch(self, text, pattern) -> bool:
+        """
+        实现.号和*号的正则表达式匹配
+        :param text:
+        :param pattern:
+        :return:
+        """
+        # i = j = 0
+        # while j < len(pattern):
+        #     # i > text的长度，说明比模式串的长度大，不匹配
+        #     if i > len(text):
+        #         return False
+        #     if text[i] != pattern[j]:
+        #         return False
+        # # 如果遍历到最后j不等于匹配串的大小，那说明也不匹配
+        # return j == len(text)
+
+        # 采用递归的形式实现上面的思路
+        # if pattern is None:
+        #     return text is  None
+        # # 判断第一个字符是否相等
+        # fist_match = bool(text) and pattern[0] == text[0]
+        # # 如果相等就递归的去匹配第二个字符
+        # return fist_match and self.isMatch(text[1:], pattern[1:])
+
+        # 正则表达式点号实现点号实现
+        # if pattern is None:
+        #     return text is  None
+        # # 判断第一个字符是否相等,模式串要想匹配成功，第一个字符要么是匹配串的第一个字符，要么就是点号
+        # # 只要是这两个中的一个就算匹配成功
+        # fist_match = bool(text) and pattern[0] in {text[0], "."}
+        # # 如果相等就递归的去匹配第二个字符
+        # return fist_match and self.isMatch(text[1:], pattern[1:])
+
+        # 正则表达式*号实现
+        if pattern is None:
+            return text is None
+        # 判断第一个字符是否相等,模式串要想匹配成功，第一个字符要么是匹配串的第一个字符，要么就是点号
+        # 只要是这两个中的一个就算匹配成功
+        fist_match = bool(text) and pattern[0] in {text[0], "."}
+
+        # 如果相等就递归的去匹配第二个字符,第二个字符此时就需要考虑*号了
+        # 需要考虑星号的前提是模式串的长度必须是大于等于2的，如果只是一个没有意义
+        if len(pattern) >= 2 and pattern[1] == "*":
+            # 当出现星号，只有两种情况，一种是首字符匹配了，那就text匹配串往后移动，或者是匹配了0次，跳过该字符和*号
+            # 过保留 pattern 中的「*」，同时向后推移 text，来实现「*」让字符出现多次的功能
+            return self.isMatch(text, pattern[2:]) or \
+                   fist_match and self.isMatch(text[1:], pattern)
+        else:
+
+            return fist_match and self.isMatch(text[1:], pattern[1:])
+
+    def isMatchV2(self, text, pattern):
+        memo = dict()
+
+        def dp(i, j):
+            if (i, j) in memo:
+                return memo[(i, j)]
+            if j == len(pattern):
+                return i == len(text)
+            first_match = i < len(text) and pattern[j] in {text[i], "."}
+            if j <= len(pattern) and pattern[j] == "*":
+                ans = dp(i, j + 2) or first_match and dp(i + 1, j)
+            else:
+                ans = first_match and dp(i + 1, j + 1)
+            memo[(i, j)] = ans
+
+        return dp(0, 0)
+
 
 if __name__ == '__main__':
     solution = Solution()

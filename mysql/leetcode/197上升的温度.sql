@@ -54,3 +54,7 @@ select name from salesperson where sales_id not in (
 select sales_id from orders where com_id = (select com_id from company where name='RED'))
 
 select sales_id from orders o join company c on o.com_id=c.com_id and c.name='RED'
+
+-- 1141. 查询近30天活跃用户数
+
+select activity_date as day, count(distinct user_id) as active_users from Activity where activity_date between '2019-06-28' and '2019-07-27' group by activity_date;
